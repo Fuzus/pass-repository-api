@@ -1,7 +1,5 @@
 package br.com.fuzusnoary.passrepositoryapi.entities;
 
-import org.springframework.security.core.token.Sha512DigestUtils;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,16 +9,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(unique = true)
     private String email;
     private String token;
 
     public User(){}
 
-    public User(Long id, String name, String email, String password) {
+    public User(Long id, String name, String email, String token) {
         this.id = id;
         this.name = name;
         this.email = email;
-        createToken(shuffle(email, password));
+        this.token = token;
     }
 
     public Long getId() {
@@ -53,23 +52,5 @@ public class User {
 
     public String getToken() {
         return token;
-    }
-
-    private void createToken(String str) {
-        this.token =  Sha512DigestUtils.shaHex(str);
-    }
-
-    private String shuffle(String email, String password) {
-        StringBuilder result = new StringBuilder();
-        int emailIndex = 0;
-        for (int i = 0; i < password.length(); i++) {
-            result.append(password.charAt(i));
-            result.append(email.charAt(emailIndex));
-            emailIndex++;
-            if (emailIndex == email.length()) {
-                emailIndex = 0;
-            }
-        }
-        return result.toString();
     }
 }
