@@ -1,0 +1,23 @@
+package br.com.fuzusnoary.passrepositoryapi.services;
+
+import br.com.fuzusnoary.passrepositoryapi.dto.UserDTO;
+import br.com.fuzusnoary.passrepositoryapi.entities.User;
+import br.com.fuzusnoary.passrepositoryapi.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository repository;
+
+    public UserDTO findById(Long id) {
+        return new UserDTO(repository.findById(id).orElseThrow(() -> new RuntimeException("Erro ao encontrar usuario")));
+    }
+
+    public UserDTO insert(UserDTO obj) {
+        User user = new User(null, obj.getName(), obj.getEmail(), obj.getPassword());
+        return new UserDTO(repository.save(user));
+    }
+}
