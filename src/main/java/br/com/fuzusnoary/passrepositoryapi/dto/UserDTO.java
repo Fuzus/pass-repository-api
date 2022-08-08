@@ -3,7 +3,6 @@ package br.com.fuzusnoary.passrepositoryapi.dto;
 import br.com.fuzusnoary.passrepositoryapi.entities.User;
 
 public class UserDTO {
-    private Long id;
     private String name;
     private String email;
     private String token;
@@ -12,18 +11,9 @@ public class UserDTO {
     public UserDTO(){}
 
     public UserDTO(User user) {
-        id = user.getId();
         name = user.getName();
         email = user.getEmail();
         token = user.getToken();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -38,6 +28,14 @@ public class UserDTO {
         return email;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -48,13 +46,5 @@ public class UserDTO {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

@@ -5,30 +5,28 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tb_user")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
     private String name;
     @Column(unique = true)
     private String email;
+    @Id
     private String token;
+
 
     public User(){}
 
-    public User(Long id, String name, String email, String token) {
-        this.id = id;
+    public User(String name, String email, String token) {
         this.name = name;
         this.email = email;
         this.token = token;
     }
 
-    public Long getId() {
-        return id;
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+
 
     public void setToken(String token) {
         this.token = token;

@@ -13,7 +13,7 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public UserDTO findById(Long id) {
+    public UserDTO findById(String id) {
         return new UserDTO(repository.findById(id).orElseThrow(() -> new RuntimeException("Erro ao encontrar usuario")));
     }
 
@@ -21,7 +21,7 @@ public class UserService {
         String shuffledString = TokenUtils.shuffle(obj.getPassword(), obj.getEmail());
         String token = TokenUtils.createToken(shuffledString);
 
-        User user = new User(null, obj.getName(), obj.getEmail(), token);
+        User user = new User(obj.getName(), obj.getEmail(), token);
         return new UserDTO(repository.save(user));
     }
 }

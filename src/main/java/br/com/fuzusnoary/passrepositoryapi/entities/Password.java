@@ -12,6 +12,7 @@ public class Password {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Enumerated(value = EnumType.ORDINAL)
     private PassType passType;
     private String password;
 
