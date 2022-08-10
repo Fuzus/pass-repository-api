@@ -5,6 +5,8 @@ import br.com.fuzusnoary.passrepositoryapi.entities.Password;
 import br.com.fuzusnoary.passrepositoryapi.entities.User;
 import br.com.fuzusnoary.passrepositoryapi.entities.enums.PassType;
 import br.com.fuzusnoary.passrepositoryapi.repository.PasswordRepository;
+import br.com.fuzusnoary.passrepositoryapi.services.exceptions.ObjectNotFoundException;
+import br.com.fuzusnoary.passrepositoryapi.services.exceptions.UserNotAllowedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +31,9 @@ public class PasswordService {
     }
 
     public Password findById(String userToken, Long id) {
-        Password pass = repository.findById(id).orElseThrow(() -> new RuntimeException("Erro ao encontrar senha"));
+        Password pass = repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Erro ao encontrar senha"));
         if (!pass.getUser().getToken().equals(userToken))
-            //TODO: alterar para exception 403 do http
-            throw new RuntimeException("Usuario nao possui acesso a senha pedida");
+            throw new UserNotAllowedException("Usuario nao possui acesso a senha pedida");
         return pass;
     }
 
