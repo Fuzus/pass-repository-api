@@ -16,10 +16,10 @@ public class UserResource {
     @Autowired
     private UserService service;
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable String id) {
-        UserDTO user = service.findById(id);
-        return ResponseEntity.ok(user);
+    @GetMapping
+    public ResponseEntity<UserDTO> findById(@RequestBody UserDTO user) {
+        UserDTO obj = service.findUser(user.getEmail(), user.getPassword());
+        return ResponseEntity.ok(obj);
     }
 
     @PostMapping

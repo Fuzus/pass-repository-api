@@ -17,33 +17,33 @@ public class PasswordResource {
     @Autowired
     private PasswordService service;
 
-    @GetMapping(path = "{user_token}")
-    public ResponseEntity<List<Password>> findAll(@PathVariable("user_token") String user_token){
+    @GetMapping
+    public ResponseEntity<List<Password>> findAll(@RequestHeader("user_token") String user_token){
         List<Password> list = service.findAll(user_token);
         return ResponseEntity.ok(list);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{user_token}/{id}")
-    public ResponseEntity<Password> findById(@PathVariable("user_token") String userToken, @PathVariable Long id) {
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    public ResponseEntity<Password> findById(@RequestHeader("user_token") String userToken, @PathVariable Long id) {
         Password obj = service.findById(userToken, id);
         return ResponseEntity.ok(obj);
     }
 
-    @PostMapping(path ="/{user_token}")
-    public ResponseEntity<Password> createPass(@PathVariable("user_token") String userToken, @RequestBody Password password) {
+    @PostMapping()
+    public ResponseEntity<Password> createPass(@RequestHeader("user_token") String userToken, @RequestBody Password password) {
         password = service.insert(userToken, password);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(password.getId()).toUri();
         return ResponseEntity.created(uri).body(password);
     }
 
-    @PutMapping(path = "/{user_token}/{id}")
-    public ResponseEntity<Password> updatePass(@PathVariable("user_token") String userToken, @PathVariable Long id, @RequestBody Password password) {
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Password> updatePass(@RequestHeader("user_token") String userToken, @PathVariable Long id, @RequestBody Password password) {
         Password obj = service.update(userToken, id, password);
         return ResponseEntity.ok(obj);
     }
 
-    @DeleteMapping(path = "/{user_token}/{id}")
-    public ResponseEntity<Void> deletePass(@PathVariable("user_token") String userToken ,@PathVariable Long id) {
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deletePass(@RequestHeader("user_token") String userToken ,@PathVariable Long id) {
         service.delete(userToken, id);
         return ResponseEntity.noContent().build();
     }

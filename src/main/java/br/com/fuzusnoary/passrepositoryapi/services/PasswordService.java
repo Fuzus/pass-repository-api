@@ -22,7 +22,7 @@ public class PasswordService {
     private UserService userService;
 
     public List<Password> findAll(String userToken) {
-        UserDTO userDTO = userService.findById(userToken);
+        UserDTO userDTO = userService.findUser(userToken);
         User user = new User();
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
@@ -38,7 +38,7 @@ public class PasswordService {
     }
 
     public Password insert(String userToken, Password password) {
-        UserDTO obj = userService.findById(userToken);
+        UserDTO obj = userService.findUser(userToken);
         User user = new User();
         user.setName(obj.getName());
         user.setEmail(obj.getEmail());
