@@ -23,6 +23,13 @@ public class Password {
     public Password() {
     }
 
+    public Password(Long id, String name, int passType, String password) {
+        this.id = id;
+        this.name = name;
+        setPassType(PassType.valueOf(passType));
+        this.password = password;
+    }
+
     public Password(Long id, String name, int passType, String password, User user) {
         this.id = id;
         this.name = name;
