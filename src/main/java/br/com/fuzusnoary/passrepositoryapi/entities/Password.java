@@ -17,7 +17,7 @@ public class Password {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "user_token")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Password() {

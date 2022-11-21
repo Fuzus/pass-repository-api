@@ -17,10 +17,10 @@ public class UserService {
     public UserDTO findUser(String email, String password) {
         String shuffledStr = TokenUtils.shuffle(password, email);
         String id = TokenUtils.createToken(shuffledStr);
-        return new UserDTO(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Erro ao encontrar usuario")));
+        return new UserDTO(repository.findByToken(id));
     }
 
-    public UserDTO findUser(String id) {
+    public UserDTO findUser(Long id) {
         return new UserDTO(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Erro ao encontrar usuario")));
     }
 
@@ -28,7 +28,7 @@ public class UserService {
         String shuffledString = TokenUtils.shuffle(obj.getPassword(), obj.getEmail());
         String token = TokenUtils.createToken(shuffledString);
 
-        User user = new User(obj.getName(), obj.getEmail(), token);
+        User user = new User(null, obj.getName(), obj.getEmail(), token);
         return new UserDTO(repository.save(user));
     }
 }

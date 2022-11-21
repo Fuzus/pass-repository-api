@@ -21,25 +21,27 @@ public class PasswordService {
     @Autowired
     private UserService userService;
 
-    public List<Password> findAll(String userToken) {
-        UserDTO userDTO = userService.findUser(userToken);
+    public List<Password> findAll(Long userId) {
+        UserDTO userDTO = userService.findUser(userId);
         User user = new User();
+        user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
         user.setToken(userDTO.getToken());
         return repository.findByUser(user);
     }
 
-    public Password findById(String userToken, Long id) {
+    public Password findById(Long userId, Long id) {
         Password pass = repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Erro ao encontrar senha"));
-        if (!pass.getUser().getToken().equals(userToken))
+        if (!pass.getUser().getId().equals(userId))
             throw new UserNotAllowedException("Usuario nao possui acesso a senha pedida");
         return pass;
     }
 
-    public Password insert(String userToken, Password password) {
-        UserDTO obj = userService.findUser(userToken);
+    public Password insert(Long userId, Password password) {
+        UserDTO obj = userService.findUser(userId);
         User user = new User();
+        user.setId(obj.getId());
         user.setName(obj.getName());
         user.setEmail(obj.getEmail());
         user.setToken(obj.getToken());
@@ -47,16 +49,16 @@ public class PasswordService {
         return repository.save(password);
     }
 
-    public Password update(String userToken, Long id, Password password) {
-        Password obj = findById(userToken, id);
+    public Password update(Long userId, Long id, Password password) {
+        Password obj = findById(userId, id);
         obj.setPassword(password.getPassword());
         obj.setPassType(PassType.valueOf(password.getPassType()));
         obj.setName(password.getName());
         return repository.save(obj);
     }
 
-    public void delete(String userToken, Long id) {
-        Password pass = findById(userToken, id);
+    public void delete(Long userId, Long id) {
+        Password pass = findById(userId, id);
         repository.delete(pass);
     }
 }

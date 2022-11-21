@@ -38,7 +38,7 @@ public class UserResource {
 
     @PostMapping(path = "/create", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public ResponseEntity<UserDTO> createUser(String name, String email, String password) {
-        UserDTO obj = new UserDTO(name, email, password);
+        UserDTO obj = new UserDTO(null, name, email, password);
         UserDTO userDTO = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(userDTO.getToken()).toUri();
         return ResponseEntity.created(uri).body(userDTO);

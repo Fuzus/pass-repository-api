@@ -6,16 +6,19 @@ import javax.persistence.*;
 @Table(name = "tb_user")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     @Column(unique = true)
     private String email;
-    @Id
     private String token;
 
 
     public User(){}
 
-    public User(String name, String email, String token) {
+    public User(Long id, String name, String email, String token) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.token = token;
@@ -27,6 +30,13 @@ public class User {
     }
 
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setToken(String token) {
         this.token = token;
