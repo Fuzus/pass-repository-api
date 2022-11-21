@@ -38,8 +38,8 @@ public class PasswordService {
         return pass;
     }
 
-    public Password insert(String usertoken, Password password) {
-        UserDTO obj = userService.findUser(usertoken);
+    public Password insert(String userToken, Password password) {
+        UserDTO obj = userService.findUser(userToken);
         User user = new User();
         user.setId(obj.getId());
         user.setName(obj.getName());
