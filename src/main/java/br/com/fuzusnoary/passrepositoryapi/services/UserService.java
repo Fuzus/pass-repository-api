@@ -16,12 +16,16 @@ public class UserService {
 
     public UserDTO findUser(String email, String password) {
         String shuffledStr = TokenUtils.shuffle(password, email);
-        String id = TokenUtils.createToken(shuffledStr);
-        return new UserDTO(repository.findByToken(id));
+        String token = TokenUtils.createToken(shuffledStr);
+        return new UserDTO(repository.findByToken(token).orElseThrow(() -> new ObjectNotFoundException("Erro ao encontrar usuario")));
     }
 
     public UserDTO findUser(Long id) {
         return new UserDTO(repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Erro ao encontrar usuario")));
+    }
+
+    public UserDTO findUser(String token) {
+        return new UserDTO(repository.findByToken(token).orElseThrow(() -> new ObjectNotFoundException("Erro ao encontrar usuario")));
     }
 
     public UserDTO insert(UserDTO obj) {
