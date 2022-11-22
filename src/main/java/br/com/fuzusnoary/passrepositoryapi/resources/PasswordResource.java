@@ -38,17 +38,14 @@ public class PasswordResource {
         return ResponseEntity.created(uri).body(password);
     }
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping
     public ResponseEntity<Password> createPassword(@RequestHeader("user_token") String userToken, @RequestBody Password password) {
-        password = service.insert(userToken, password);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(password.getId()).toUri();
-        return ResponseEntity.created(uri).body(password);
+        return createPass(userToken, password.getName(), password.getPassType(), password.getPassword());
     }
 
-    @PutMapping(path = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(path = "/{id}")
     public ResponseEntity<Password> updatePass(@RequestHeader("user_token") String userToken, @PathVariable Long id, @RequestBody Password password) {
-        Password obj = service.update(userToken, id, password);
-        return ResponseEntity.ok(obj);
+        return updatePassword(userToken, id, password.getName(), password.getPassType(), password.getPassword());
     }
 
     @PutMapping(path = "/{id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
